@@ -1,4 +1,4 @@
-const plansDao = require("../daos/plan");
+const tripDao = require("../daos/trip");
 
 module.exports = { createOne, getOne, getAll, updateOne, deleteOne };
 

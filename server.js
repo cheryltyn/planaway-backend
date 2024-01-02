@@ -22,6 +22,6 @@ app.use(cors());
 
 app.use("/users", usersRouter);
 app.use("/trips", tripsRouter);
-app.use("/plans", plansRouter);
+app.use("/", plansRouter);
 
 module.exports = app;
