@@ -1,9 +1,10 @@
 const userDao = require("../daos/user");
+const tripDao = require("../daos/trip");
 
 module.exports = { createOne, getOne, getAll, updateOne, deleteOne };
 
 async function getAll(username) {
-  //to update: user userDao functions
+  //to update: use userDao functions
   const tripData = await userDao
     .findOne({ username: username })
     .select("trips");
@@ -12,7 +13,16 @@ async function getAll(username) {
   return tripDataPopulated.trips;
 }
 
-function createOne() {}
+async function createOne(username, body) {
+  // console.log(`username:${username},body:${body}`);
+  //to update: use userDao functions
+  const userData = await userDao.findOne({ username: username });
+  const newTrip = await tripDao.create(body);
+  userData.trips.push(newTrip);
+  const userUpdated = await userData.save();
+  //to update: not sure what to return here.
+  return userUpdated;
+}
 
 function getOne() {}
 
