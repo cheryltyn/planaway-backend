@@ -4,11 +4,11 @@ var express = require("express");
 var planCtrl = require("../controllers/plans");
 var router = express.Router();
 
-//under route: /
+//under route: /plan
 //tbc: do we need the tripid in the route path?
 
 //create a new plan under the trip
-router.post("/trips/:tripid/plans", planCtrl.newPlan);
+router.post("/", planCtrl.newPlan);
 //view all plans under the trip
 router.get("/trips/:tripid/plans", planCtrl.getAllPlans);
 //view one plan under the trip. tbc, is this route correct?

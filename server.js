@@ -25,7 +25,7 @@ app.use(cors());
 app.use("/users", usersRouter);
 //to update: to be removed after finished
 app.use("/tests", testsRouter);
-app.use("/", tripsRouter);
-app.use("/", plansRouter);
+app.use("/trips", tripsRouter);
+app.use("/plans", plansRouter);
 
 module.exports = app;
