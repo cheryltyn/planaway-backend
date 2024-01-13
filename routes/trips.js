@@ -4,12 +4,12 @@ var express = require("express");
 var tripCtrl = require("../controllers/trips");
 var router = express.Router();
 
-//under route: /trips
+//under route: /
+router.get("/:username/trips", tripCtrl.getAllTrips);
+router.post("/:username/trips", tripCtrl.newTrip);
 
-router.post("/", tripCtrl.newTrip);
-router.get("/", tripCtrl.getAllTrips);
-router.get("/:tripid", tripCtrl.getOneTrip);
-router.patch("/:tripid", tripCtrl.updateOneTrip);
-router.delete("/:tripid", tripCtrl.deleteOneTrip);
+router.get("/:username/trips/:tripid", tripCtrl.getOneTrip);
+router.patch("/:username/trips/:tripid", tripCtrl.updateOneTrip);
+router.delete("/:/username/trips/:tripid", tripCtrl.deleteOneTrip);
 
 module.exports = router;
