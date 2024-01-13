@@ -10,6 +10,8 @@ const cors = require("cors");
 var usersRouter = require("./routes/users");
 var tripsRouter = require("./routes/trips");
 var plansRouter = require("./routes/plans");
+//to update: to be removed after finished
+var testsRouter = require("./routes/tests");
 
 var app = express();
 
@@ -23,5 +25,7 @@ app.use(cors());
 app.use("/users", usersRouter);
 app.use("/trips", tripsRouter);
 app.use("/plans", plansRouter);
+//to update: to be removed after finished
+app.use("/tests", testsRouter);
 
 module.exports = app;
