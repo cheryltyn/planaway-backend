@@ -1,16 +1,21 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-//draft, will need to add validation rules to the schema
-// related by embedding
+// Define the Plan Schema
 const planSchema = new Schema(
   {
     header: { type: String, required: true },
-    items: { type: [String] },
+    description: { type: [String] },
+    tripID: { type: Schema.Types.ObjectId, ref: 'Trip' } 
   },
-  { timestampes: true }
+  { timestamps: true }
 );
 
+// Create and export the Plan model
+const Plan = mongoose.model("Plan", planSchema);
+module.exports.Plan = Plan;
+
+// Define the Trip Schema
 const tripSchema = new Schema(
   {
     destination: { type: String, required: true },
@@ -20,7 +25,9 @@ const tripSchema = new Schema(
     toShare: { type: Boolean, default: false },
     plans: [planSchema],
   },
-  { timestampes: true }
+  { timestamps: true }
 );
 
-module.exports = mongoose.model("Trip", tripSchema);
+// Create and export the Trip model
+const Trip = mongoose.model("Trip", tripSchema);
+module.exports.Trip = Trip;
