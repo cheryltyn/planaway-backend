@@ -8,14 +8,14 @@ var router = express.Router();
 //tbc: do we need the tripid in the route path?
 
 //create a new plan under the trip
-router.post("/trips/:tripid/plans", planCtrl.createPlan);
+router.post("/:tripid", planCtrl.createPlan);
 //view all plans under the trip
-// router.get("/trips/:tripid/plans", planCtrl.getAllPlans);
+router.get("/:tripid/plans", planCtrl.getAllPlans);
 //view one plan under the trip. tbc, is this route correct?
-// router.get("/trips/:tripid/:planid", planCtrl.getOnePlan);
+router.get("/:planid", planCtrl.getOnePlan);
 //update one plan. tbc, is this route correct?
-// router.patch("/trips/:tripid/:planid", planCtrl.updateOnePlan);
+router.patch("/:planid", planCtrl.updateOnePlan);
 //delete one plan. tbc, is this route correct?
-// router.delete("/trips/:tripid/:planid", planCtrl.deleteOnePlan);
+router.delete("/:tripid", planCtrl.deleteOnePlan);
 
 module.exports = router;

@@ -3,6 +3,9 @@ const { Plan, Trip } = require("../daos/trip");
 module.exports = { 
     findTripById, 
     createOne,
+    findPlanById, 
+    deleteOne,
+    updateOne, 
  };
 
 async function createOne(plans, tripID) {
@@ -15,10 +18,9 @@ async function createOne(plans, tripID) {
 
         const trip = await Trip.findById(tripID);
         if (!trip) {
-            throw new Error('Trip not found'); // Handle the error accordingly
+            throw new Error('Trip not found'); 
         }
 
-        // Push the newPlan to the trip's plans array
         trip.plans.push(newPlan);
         await trip.save();
 
@@ -38,9 +40,21 @@ try {
 
     return trip;
 } catch (error) {
-    throw error; // Propagate the error to the caller
+    throw error; 
 }
 }
+
+async function findPlanById(planID) {
+    try {
+        const plan = await Plan.findById(planID);
+        if (!plan) {
+        throw new Error('Plan not found');
+        }
+        return plan;
+    } catch (error) {
+        throw error; 
+    }
+    }
   
 
 // function getOne() {}
@@ -48,6 +62,32 @@ try {
 //     const plans = tripDao.find({title: param})
 // }
 
-// function updateOne() {}
+async function updateOne(data) {
+    try {
+        const planID = data.planid;
+        const updateData = {
+            header: data.header,
+            description: data.description,
+          };
+      
+        const updatedPlan = await Plan.findOneAndUpdate({ _id: planID }, updateData, { new: true });
+          if (!updatedPlan) {
+            throw new Error('Plan not found');
+        }
+        return updatedPlan;
+    } catch (error) {
+        throw error; 
+    }
+}
 
-// function deleteOne() {}
+async function deleteOne(planID) {
+    try {
+        const deletedPlan = await Plan.findByIdAndDelete(planID);
+        if (!deletedPlan) {
+        throw new Error('Plan not found');
+        }
+        return deletedPlan;
+    } catch (error) {
+        throw error; 
+    }
+}

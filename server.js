@@ -23,9 +23,9 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 
 app.use("/users", usersRouter);
-//to update: to be removed after finished
-app.use("/tests", testsRouter);
 app.use("/trips", tripsRouter);
 app.use("/plans", plansRouter);
+//to update: to be removed after finished
+app.use("/tests", testsRouter);
 
 module.exports = app;
