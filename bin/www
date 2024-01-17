@@ -7,6 +7,14 @@
 var app = require("../server");
 var debug = require("debug")("planaway-backend:server");
 var http = require("http");
+var connectDB = require("../client/mongo")
+
+/**
+ * Connect to the database.
+ */
+
+connectDB();
+
 
 /**
  * Get port from environment and store in Express.
