@@ -26,7 +26,9 @@ function validateUpdateUser(user) {
 }
 /* === to update user information === */
 const createUser = asyncHandler(async (req, res) => {
+  console.log("Request received:", req);
   const { error } = validateUser(req.body);
+
 
   if (error) {
     return res

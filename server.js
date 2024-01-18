@@ -3,7 +3,8 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var cors = require("cors");
-
+var User = require("./daos/user")
+var connectDB = require("./client/mongo")
 require("dotenv").config();
 //require("./client/mongo");
 require("./routes/index");
@@ -14,6 +15,7 @@ var plansRouter = require("./routes/plans");
 //to update: to be removed after finished
 var testsRouter = require("./routes/tests");
 
+connectDB ();
 const app = express();
 
 /*****  Middlewares  *****/
