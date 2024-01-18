@@ -24,8 +24,15 @@ async function createOne(username, body) {
   return userUpdated;
 }
 
+async function deleteOne(username, tripId) {
+  // to update: need to delete from 2 places. Maybe can have a customised function for the schema
+  await userDao.updateOne({ username: username }, { $pull: { trips: tripId } });
+  await tripDao.findByIdAndDelete(tripId);
+
+  const tripDataUpdated = await getAll(username);
+  return tripDataUpdated;
+}
+
 function getOne() {}
 
 function updateOne() {}
-
-function deleteOne() {}

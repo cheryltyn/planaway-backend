@@ -4,7 +4,7 @@ var express = require("express");
 var planCtrl = require("../controllers/plans");
 var router = express.Router();
 
-//under route: /
+//under route: /plan
 //tbc: do we need the tripid in the route path?
 
 //create a new plan under the trip

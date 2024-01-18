@@ -4,12 +4,12 @@ var express = require("express");
 var tripCtrl = require("../controllers/trips");
 var router = express.Router();
 
-//under route: /
-router.get("/:username/trips", tripCtrl.getAllTrips);
-router.post("/:username/trips", tripCtrl.newTrip);
+//under route: /trips
+router.get("/:username", tripCtrl.getAllTrips);
+router.post("/:username", tripCtrl.newTrip);
+router.delete("/:username", tripCtrl.deleteOneTrip); //tripID to be passed in by query
 
-router.get("/:username/trips/:tripid", tripCtrl.getOneTrip);
-router.patch("/:username/trips/:tripid", tripCtrl.updateOneTrip);
-router.delete("/:/username/trips/:tripid", tripCtrl.deleteOneTrip);
+// router.get("/:tripid/", tripCtrl.getOneTrip);
+// router.patch("/:username/trips/:tripid", tripCtrl.updateOneTrip);
 
 module.exports = router;
