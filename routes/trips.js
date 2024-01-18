@@ -8,6 +8,7 @@ var router = express.Router();
 router.get("/:username", tripCtrl.getAllTrips);
 router.post("/:username", tripCtrl.newTrip);
 router.delete("/:username", tripCtrl.deleteOneTrip); //tripID to be passed in by query
+router.patch("/:username", tripCtrl.updateOneTrip); //tripID to be passed in by query
 
 // router.get("/:tripid/", tripCtrl.getOneTrip);
 // router.patch("/:username/trips/:tripid", tripCtrl.updateOneTrip);
