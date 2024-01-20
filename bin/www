@@ -7,7 +7,6 @@
 var app = require("../server");
 var debug = require("debug")("planaway-backend:server");
 var http = require("http");
-var { createServer } = require("http");
 
 
 /**
@@ -21,7 +20,7 @@ app.set("port", port);
  * Create HTTP server.
  */
 
-var server = createServer(app);
+var server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.

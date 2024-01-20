@@ -5,7 +5,6 @@ const _ = require("lodash");
 const asyncHandler = require("../middlewares/asyncHandler");
 const { User, validateUser } = require("../daos/user");
 
-
 function validateLogin(user) {
   const schema = Joi.object({
     password: Joi.string().required(),
@@ -25,10 +24,10 @@ function validateUpdateUser(user) {
   return schema.validate(user);
 }
 /* === to update user information === */
+// to add new user, make sure they are valid and does not exist yet
 const createUser = asyncHandler(async (req, res) => {
   console.log("Request received:", req);
   const { error } = validateUser(req.body);
-
 
   if (error) {
     return res
@@ -85,7 +84,7 @@ const loginUser = asyncHandler(async (req, res) => {
       .status(404)
       .send({ status: false, message: "Invalid email or password." });
 
-  /* === create a user object with only necessary details === */  
+  /* === create a user object with only necessary details === */
   const userWithoutPassword = {
     _id: user._id,
     userName: user.userName,
@@ -93,6 +92,7 @@ const loginUser = asyncHandler(async (req, res) => {
     // ~ can add other necessary fields ~
   };
 
+   /*== set a cookie named user + cookies expiration ==*/
   res.cookie("user", userWithoutPassword, {
     maxAge: 30 * 24 * 60 * 60 * 1000,
   });
@@ -104,46 +104,55 @@ const loginUser = asyncHandler(async (req, res) => {
   });
 });
 
-/* === Update profile === */  
+/* === Update profile === */
 const updateUser = asyncHandler(async (req, res) => {
-  const { error } = validateUpdateUser(req.body);
+  try {
+    const { error } = validateUpdateUser(req.body);
 
-  if (error) {
-    return res
-      .status(400)
-      .send({ status: false, message: error?.details[0]?.message });
+    if (error) {
+      return res
+        .status(400)
+        .send({ status: false, message: error?.details[0]?.message });
+    }
+
+    //Find the user by ID
+    let user = await User.findById(req.params.id);
+
+    if (!user) {
+      return res
+        .status(404)
+        .send({ status: false, message: "User not found." });
+    }
+    if (req.body.userName) {
+      user.userName = req.body.userName;
+    }
+    if (req.body.email) {
+      user.email = req.body.email;
+    }
+
+    if (req.body.password) {
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      user.password = hashedPassword;
+    }
+    await user.save();
+
+    const userWithoutPassword = {
+      _id: user._id,
+      userName: user.userName,
+      email: user.email,
+    };
+
+    return res.status(200).send({
+      status: true,
+      message: "User updated successfully",
+      user: userWithoutPassword,
+    });
+  } catch (err) {
+    console.log(err);
   }
-
-  //Find the user by ID
-  let user = await User.findById(req.params.id);
-
-  if (!user) {
-    return res.status(404).send({ status: false, message: "User not found." });
-  }
-  if (req.body.userName) {
-    user.userName = res.body.userName;
-  }
-
-  if (req.body.password) {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    user.password = hashedPassword;
-  }
-  await user.save();
-
-  const userWithoutPassword = {
-    _id: user._id,
-    userName: user.userName,
-    email: user.email,
-  };
-
-  return res.status(200).send({
-    status: true,
-    message: "User updated successfully",
-    user: userWithoutPassword,
-  });
 });
 
-/* === Logout === */  
+/* === Logout === */
 const logout = asyncHandler(async (req, res) => {
   res.cookie("user", null).send("Successfully logout");
 });
