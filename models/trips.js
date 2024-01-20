@@ -34,7 +34,7 @@ async function deleteOne(username, tripId) {
 }
 
 async function getOne(username, tripId) {
-  const tripData = await userDao.findOne({ trips: tripId }).select("trips");
+  const tripData = await tripDao.findById(tripId);
   // console.log(tripData);
 
   return tripData;
