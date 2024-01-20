@@ -6,7 +6,7 @@ const planSchema = new Schema(
   {
     header: { type: String, required: true },
     description: { type: [String] },
-    tripID: { type: Schema.Types.ObjectId, ref: 'Trip' } 
+    tripID: { type: Schema.Types.ObjectId, ref: "Trip" },
   },
   { timestamps: true }
 );
@@ -29,5 +29,6 @@ const tripSchema = new Schema(
 );
 
 // Create and export the Trip model
-const Trip = mongoose.model("Trip", tripSchema);
-module.exports.Trip = Trip;
+// const Trip = mongoose.model("Trip", tripSchema);
+module.exports = mongoose.model("Trip", tripSchema);
+// module.exports.Trip = Trip;
