@@ -31,16 +31,18 @@ const UserSchema = new mongoose.Schema(
     password: {
       type: String,
     },
+    accountType: { type: String, enum: ["basic", "premium"], default: "basic" },
+    trips: [{ type: Schema.Types.ObjectId, ref: "Trip" }],
   },
   { timestamps: true }
 );
 
-UserSchema.pre("save", async function (next) { // runs before savings a user
+UserSchema.pre("save", async function (next) {
+  // runs before savings a user
   if (!this.isModified()) return next(); // if the user isn't modified, process without hashing
   const salt = await bcrypt.genSalt(10); // generate salt for hashing
   this.password = await bcrypt.hash(this.password, salt); //hash the pw
 });
-
 
 function validateUser(user) {
   const schema = Joi.object({
