@@ -40,7 +40,6 @@ async function getOnePlan(req, res) {
 async function getAllPlans(req, res) {
   try {
     const tripID = req.params.tripid;
-    console.log(tripID)
     const getTrip = await planMdl.findTripById(tripID);
     const plans =  getTrip.plans 
     res.status(200).json({ Plans: plans });
@@ -54,7 +53,13 @@ async function getAllPlans(req, res) {
 //update an existing trip's details
 async function updateOnePlan(req, res) {
   try {
-    const updatedPlan = await planMdl.updateOne(req.body);
+    const planId = req.params.planid; 
+    console.log(req.body)
+    const updatedPlan = await planMdl.updateOne(planId, req.body);
+
+    if (!updatedPlan) {
+      return res.status(404).json({ message: 'Plan not found' });
+    }
   
     res.status(200).json({ Plan: updatedPlan });
   } catch (error) {

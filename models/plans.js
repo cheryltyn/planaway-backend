@@ -65,9 +65,9 @@ async function findPlanById(planID) {
 //     const plans = tripDao.find({title: param})
 // }
 
-async function updateOne(data) {
+async function updateOne(planId, data) {
     try {
-        const planID = data.planid;
+        const planID = planId;
         const updateData = {
             header: data.header,
             description: data.description,
