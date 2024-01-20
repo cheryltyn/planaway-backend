@@ -1,13 +1,16 @@
-const userDao = require("../daos/user");
+// const userDao = require("../daos/user");
+const { User: userDao, validateUser } = require("../daos/user");
 const tripDao = require("../daos/trip");
+// const { Trip: tripDao } = require("../dao/trip");
 
 module.exports = { createOne, getOne, getAll, updateOne, deleteOne };
 
 async function getAll(username) {
   //to update: use userDao functions
-  const tripData = await userDao
-    .findOne({ username: username })
-    .select("trips");
+  console.log(username);
+  const tripData = await userDao.findOne({ userName: username });
+  console.log(tripData);
+  // .select("trips");
   // console.log(tripData);
   const tripDataPopulated = await tripData.populate("trips");
   return tripDataPopulated.trips;
@@ -16,7 +19,7 @@ async function getAll(username) {
 async function createOne(username, body) {
   // console.log(`username:${username},body:${body}`);
   //to update: use userDao functions
-  const userData = await userDao.findOne({ username: username });
+  const userData = await userDao.findOne({ userName: username });
   const newTrip = await tripDao.create(body);
   userData.trips.push(newTrip);
   const userUpdated = await userData.save();
@@ -26,7 +29,7 @@ async function createOne(username, body) {
 
 async function deleteOne(username, tripId) {
   // to update: need to delete from 2 places. Maybe can have a customised function for the schema
-  await userDao.updateOne({ username: username }, { $pull: { trips: tripId } });
+  await userDao.updateOne({ userName: username }, { $pull: { trips: tripId } });
   await tripDao.findByIdAndDelete(tripId);
 
   const tripDataUpdated = await getAll(username);
