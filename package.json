@@ -11,6 +11,7 @@
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
     "express": "^4.18.2",
     "install": "^0.13.0",
     "joi": "^17.11.1",
@@ -18,14 +19,8 @@
     "lodash": "^4.17.21",
     "mongoose": "^8.0.3",
     "morgan": "~1.9.1",
-    "npm": "^10.2.5"
-  },
-  "imports": {
-    "#config/*": "./config/*.js",
-    "#controllers/*": "./controllers/*.js",
-    "#middlewares/*": "./middlewares/*.js",
-    "#models/*": "./models/*.js",
-    "#routes/*": "./routes/*.js"
+    "multer": "^1.4.5-lts.1",
+    "npm": "^10.2.5",
+    "winston": "^3.11.0"
   }
-
 }

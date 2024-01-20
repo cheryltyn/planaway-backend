@@ -3,5 +3,4 @@ const asyncHandler = cb =>
     Promise.resolve(cb(req, res, next))
       .catch(next);
 
-
-export default asyncHandler
+module.exports = asyncHandler;
