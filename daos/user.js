@@ -37,12 +37,12 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-UserSchema.pre("save", async function (next) {
-  // runs before savings a user
-  if (!this.isModified()) return next(); // if the user isn't modified, process without hashing
-  const salt = await bcrypt.genSalt(10); // generate salt for hashing
-  this.password = await bcrypt.hash(this.password, salt); //hash the pw
-});
+// UserSchema.pre("save", async function (next) {
+//   // runs before savings a user
+//   if (!this.isModified()) return next(); // if the user isn't modified, process without hashing
+//   const salt = await bcrypt.genSalt(10); // generate salt for hashing
+//   this.password = await bcrypt.hash(this.password, salt); //hash the pw
+// });
 
 function validateUser(user) {
   const schema = Joi.object({
