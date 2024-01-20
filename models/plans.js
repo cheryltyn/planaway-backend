@@ -1,4 +1,5 @@
-const { Plan, Trip } = require("../daos/trip");
+const Plan = require("../daos/plan");
+const Trip = require("../daos/trip");
 
 module.exports = { 
     findTripById, 
@@ -8,15 +9,16 @@ module.exports = {
     updateOne, 
  };
 
-async function createOne(plans, tripID) {
+async function createOne(plans) {
     try {
+
         const newPlan = await Plan.create({
             header: plans.header,
             description: plans.description,
-            tripID: tripID,
+            tripID: plans.tripID,
           });
 
-        const trip = await Trip.findById(tripID);
+        const trip = await Trip.findById(plans.tripID);
         if (!trip) {
             throw new Error('Trip not found'); 
         }
@@ -25,6 +27,7 @@ async function createOne(plans, tripID) {
         await trip.save();
 
         console.log("Plan created:", newPlan);
+        return newPlan;
     } catch (error) {
         console.error("Error creating plan:", error);
     }

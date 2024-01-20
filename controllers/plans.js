@@ -11,8 +11,8 @@ module.exports = {
 //create a new trip
 async function createPlan(req, res) {
   try {
-    const tripID = req.params.tripid;
-    const createdTrip = await planMdl.createOne(req.body, tripID);
+    const tripID = req.body.tripID;
+    const createdTrip = await planMdl.createOne(req.body);
     
     res.status(201).json({ message: 'Trip created successfully', data: createdTrip });
   } catch (error) {
@@ -25,7 +25,6 @@ async function createPlan(req, res) {
 // //get an existing trip's details
 async function getOnePlan(req, res) {
   try {
-    console.log('TRYING')
     // [TO EDIT] Edit Params based on where the information is 
     // const tripID = req.params.tripid; // i dont even think i need tripID? 
     const planID = req.params.planid;
@@ -40,8 +39,8 @@ async function getOnePlan(req, res) {
 //get an existing trip's details
 async function getAllPlans(req, res) {
   try {
-     // [TO EDIT] Edit Params based on where the information is 
     const tripID = req.params.tripid;
+    console.log(tripID)
     const getTrip = await planMdl.findTripById(tripID);
     const plans =  getTrip.plans 
     res.status(200).json({ Plans: plans });

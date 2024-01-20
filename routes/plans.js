@@ -10,7 +10,7 @@ var router = express.Router();
 //create a new plan under the trip
 router.post("/:tripid", planCtrl.createPlan);
 //view all plans under the trip
-router.get("/:tripid/plans", planCtrl.getAllPlans);
+router.get("/:tripid", planCtrl.getAllPlans);
 //view one plan under the trip. tbc, is this route correct?
 router.get("/:planid", planCtrl.getOnePlan);
 //update one plan. tbc, is this route correct?
