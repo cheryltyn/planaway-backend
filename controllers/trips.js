@@ -27,8 +27,8 @@ async function getAllTrips(req, res) {
 async function newTrip(req, res) {
   const userName = req.params.username;
   const body = req.body;
-  console.log(userName);
-  console.log(body);
+  // console.log(userName);
+  // console.log(body);
   try {
     const tripData = await tripMdl.createOne(userName, body);
     res.json(tripData);
@@ -52,7 +52,28 @@ async function deleteOneTrip(req, res) {
 }
 
 //get an existing trip's details
-async function getOneTrip(req, res) {}
+async function getOneTrip(req, res) {
+  const userName = req.params.username;
+  const tripId = req.query.tripid;
+  try {
+    const tripData = await tripMdl.getOne(userName, tripId);
+    res.json(tripData);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ errMsg: err.message });
+  }
+}
 
 //update an existing trip's details
-async function updateOneTrip(req, res) {}
+async function updateOneTrip(req, res) {
+  const userName = req.params.username;
+  const tripId = req.query.tripid;
+  const body = req.body;
+  try {
+    const tripData = await tripMdl.updateOne(userName, tripId, body);
+    res.json(tripData);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ errMsg: err.message });
+  }
+}

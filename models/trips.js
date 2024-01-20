@@ -33,6 +33,23 @@ async function deleteOne(username, tripId) {
   return tripDataUpdated;
 }
 
-function getOne() {}
+async function getOne(username, tripId) {
+  const tripData = await userDao.findOne({ trips: tripId }).select("trips");
+  // console.log(tripData);
 
-function updateOne() {}
+  return tripData;
+}
+
+async function updateOne(username, tripId, body) {
+  const tripData = await tripDao.findById(tripId);
+  console.log(tripData);
+  tripData.destination = body.destination;
+  tripData.description = body.description;
+  tripData.startDay = body.startDay;
+  tripData.endDay = body.endDay;
+
+  await tripData.save();
+  // console.log(tripData);
+
+  return tripData;
+}
