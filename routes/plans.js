@@ -16,6 +16,6 @@ router.get("/:planid", planCtrl.getOnePlan);
 //update one plan. tbc, is this route correct?
 router.patch("/:planid", planCtrl.updateOnePlan);
 //delete one plan. tbc, is this route correct?
-router.delete("/:tripid", planCtrl.deleteOnePlan);
+router.delete("/:planid", planCtrl.deleteOnePlan);
 
 module.exports = router;

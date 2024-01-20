@@ -68,17 +68,21 @@ async function updateOnePlan(req, res) {
   }
 }
 
-// //delete an existing trip
+// Delete an existing plan
 async function deleteOnePlan(req, res) {
   try {
-    const planID = req.body.planid;
-    const tripID = req.params.tripid;
-    const deletePlan = await planMdl.deleteOne(planID);
-    const getTrip = await planMdl.findTripById(tripID);
-    const plans =  getTrip.plans 
+    const planId = req.params.planid;
+    // First, delete the plan
+    const deletedPlan = await planMdl.deleteOne(planId);
+
+    // Check if the plan was found and deleted
+    if (!deletedPlan) {
+      return res.status(404).json({ message: 'Plan not found' });
+    }
+
     res.status(200).json({ Plans: plans });
   } catch (error) {
-    console.error('Error deleting plans:', error);
+    console.error('Error deleting plan:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 }
