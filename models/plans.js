@@ -85,12 +85,27 @@ async function updateOne(planId, data) {
 
 async function deleteOne(planID) {
     try {
-        const deletedPlan = await Plan.findByIdAndDelete(planID);
-        if (!deletedPlan) {
-        throw new Error('Plan not found');
-        }
-        return deletedPlan;
+
+      const deletedPlan = await Plan.findByIdAndDelete(planID);
+      if (!deletedPlan) {
+        throw new Error('Plan not found in model');
+      }
+  
+      // Find the corresponding Trip document
+      const trip = await Trip.findOne({ "plans._id": planID });
+  
+      if (trip) {
+        // Remove the deleted plan from the plans array
+        trip.plans.pull(planID);
+        await trip.save();
+      } else {
+        // Handle the case where the Trip document is not found
+        console.error('Trip not found for the deleted plan');
+      }
+  
+      return deletedPlan;
     } catch (error) {
-        throw error; 
+      throw error;
     }
-}
+  }
+  
