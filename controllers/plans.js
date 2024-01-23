@@ -29,9 +29,9 @@ async function getOnePlan(req, res) {
     // const tripID = req.params.tripid; // i dont even think i need tripID? 
     const planID = req.params.planid;
     const getPlan = await planMdl.findPlanById(planID);
-    res.status(200).json({ Plan: getPlan });
+    res.status(200).json(getPlan);
   } catch (error) {
-    console.error('Error getting plans:', error);
+    console.error('Error getting oneplan:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 }
