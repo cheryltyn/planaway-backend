@@ -12,7 +12,7 @@ router.post("/:tripid", planCtrl.createPlan);
 //view all plans under the trip
 router.get("/:tripid", planCtrl.getAllPlans);
 //view one plan under the trip. tbc, is this route correct?
-router.get("/:planid", planCtrl.getOnePlan);
+router.get("/:tripid/:planid", planCtrl.getOnePlan);
 //update one plan. tbc, is this route correct?
 router.patch("/:planid", planCtrl.updateOnePlan);
 //delete one plan. tbc, is this route correct?
