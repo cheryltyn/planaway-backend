@@ -58,12 +58,6 @@ async function findPlanById(planID) {
         throw error; 
     }
     }
-  
-
-// function getOne() {}
-// function getAll() {
-//     const plans = tripDao.find({title: param})
-// }
 
 async function updateOne(planId, data) {
     try {
@@ -77,6 +71,23 @@ async function updateOne(planId, data) {
           if (!updatedPlan) {
             throw new Error('Plan not found');
         }
+
+        const trip = await Trip.findOne({ "plans._id": planID });
+
+        if (trip) {
+          // Update the plan details within the Trip's plans array
+          const planIndex = trip.plans.findIndex((plan) => plan._id.toString() === planID.toString());
+          if (planIndex !== -1) {
+            trip.plans[planIndex].header = data.header;
+            trip.plans[planIndex].description = data.description;
+            await trip.save();
+          } else {
+            throw new Error('Plan not found in Trip');
+          }
+        } else {
+          throw new Error('Trip not found for the updated plan');
+        }
+
         return updatedPlan;
     } catch (error) {
         throw error; 
