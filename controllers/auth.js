@@ -88,11 +88,6 @@ const loginUser = asyncHandler(async (req, res) => {
       .send({ status: false, message: "Invalid email or password." });
   }
 
-  /* == jwt == */
-  const payload = { userName: user.userName, email: user.email};
-  const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "7d" });
-  console.log("🚀 ~ loginUser ~ token:", token);
-
   /* === create a user object with only necessary details === */
   const userWithoutPassword = {
     _id: user._id,
@@ -110,6 +105,7 @@ const loginUser = asyncHandler(async (req, res) => {
     status: true,
     message: `Login successfully`,
     user: userWithoutPassword,
+    token, 
   });
 });
 

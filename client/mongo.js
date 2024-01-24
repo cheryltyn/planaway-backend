@@ -7,9 +7,7 @@ const connectDB = async () => {
       throw new Error("DATABASE_URL is not defined");
     }
 
-    // debugging and troubleshooting
     mongoose.set("debug", true);
-    // use this only when have specific need for flexible queries
     //mongoose.set("strictQuery", false);
 
     const conn = await mongoose.connect(process.env.DATABASE_URL);

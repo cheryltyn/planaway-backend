@@ -1,4 +1,4 @@
-//route to handle all user-related operations
+// route to handle all user-related operations
 
 var express = require("express");
 var userCtrl = require("../controllers/users");
