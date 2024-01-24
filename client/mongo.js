@@ -1,16 +1,3 @@
-// // connect the project to MongoDB
-
-// const mongoose = require("mongoose");
-
-// mongoose.set("debug", true);
-// mongoose.connect(process.env.DATABASE_URL);
-
-// const db = mongoose.connection;
-
-// db.on("connected", function () {
-//   console.log(`Connected to MongoDB ${db.name} at ${db.host}:${db.port}`);
-// });
-
 const mongoose = require("mongoose");
 
 const connectDB = async () => {
@@ -19,8 +6,8 @@ const connectDB = async () => {
       throw new Error("DATABASE_URL is not defined");
     }
 
-    //mongoose.set("debug", true);
-    mongoose.set("strictQuery", false);
+    mongoose.set("debug", true);
+    //mongoose.set("strictQuery", false);
 
     const conn = await mongoose.connect(process.env.DATABASE_URL);
 

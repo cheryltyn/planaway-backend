@@ -8,7 +8,6 @@ var User = require("./daos/user");
 var connectDB = require("./client/mongo");
 
 require("dotenv").config();
-//require("./client/mongo");
 require("./routes/index");
 
 var usersRouter = require("./routes/users");
