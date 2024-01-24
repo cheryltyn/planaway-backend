@@ -1,3 +1,4 @@
+// for more robust and better error handling
 const mongoose = require("mongoose");
 
 const connectDB = async () => {

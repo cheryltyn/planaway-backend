@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const _ = require("lodash");
 const asyncHandler = require("../middlewares/asyncHandler");
 const { User, validateUser } = require("../daos/user");
-const jwt = require ("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 function validateLogin(user) {
   const schema = Joi.object({
@@ -27,14 +27,13 @@ function validateUpdateUser(user) {
 /* === to update user information === */
 // to add new user, make sure they are valid and does not exist yet
 const createUser = asyncHandler(async (req, res) => {
-  console.log("Request received:", req);
   const { error } = validateUser(req.body);
 
   if (error) {
     return res
       .status(400)
       .send({ status: false, message: error?.details[0]?.message });
-  }
+  } 
 
   let user = await User.findOne({ email: req.body.email });
   if (user) {
@@ -72,7 +71,6 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 
   let user = await User.findOne({ email: req.body.email });
-  console.log(user);
 
   if (!user) {
     console.log(1);
@@ -90,11 +88,6 @@ const loginUser = asyncHandler(async (req, res) => {
       .send({ status: false, message: "Invalid email or password." });
   }
 
-  /* === JWT === */
-  const payload = { userName: user.userName, email: user.email};
-  const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "7d"})
-  console.log("🚀 ~ loginUser ~ token:", token);
-
   /* === create a user object with only necessary details === */
   const userWithoutPassword = {
     _id: user._id,
@@ -102,8 +95,6 @@ const loginUser = asyncHandler(async (req, res) => {
     email: user.email,
     // ~ can add other necessary fields ~
   };
-
-  console.log(3);
 
   /*== set a cookie named user + cookies expiration ==*/
   res.cookie("user", userWithoutPassword, {
