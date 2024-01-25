@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const _ = require("lodash");
 const asyncHandler = require("../middlewares/asyncHandler");
 const { User, validateUser } = require("../daos/user");
-const jwt = require("jsonwebtoken");
+//const jwt = require("jsonwebtoken");
 
 function validateLogin(user) {
   const schema = Joi.object({
@@ -46,10 +46,16 @@ const createUser = asyncHandler(async (req, res) => {
     ).save();
 
     if (newUser) {
+      /* === JWT === */
+      // const payload = { userName: newUser.userName, email: newUser.email};
+      // const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      //   expiresIn: "7d",
+      // });
       return res.status(201).json({
         status: true,
         message: "User created successfully",
         user: newUser,
+        //token,
       });
     } else {
       return res.status(400).json({
@@ -88,6 +94,10 @@ const loginUser = asyncHandler(async (req, res) => {
       .send({ status: false, message: "Invalid email or password." });
   }
 
+  /* === JWT === */
+  // const payload = { userName: user.userName, email: user.email};
+  // const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "7d"});
+
   /* === create a user object with only necessary details === */
   const userWithoutPassword = {
     _id: user._id,
@@ -105,7 +115,7 @@ const loginUser = asyncHandler(async (req, res) => {
     status: true,
     message: `Login successfully`,
     user: userWithoutPassword,
-    token, 
+    //token, 
   });
 });
 
