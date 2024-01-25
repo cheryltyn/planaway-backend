@@ -1,15 +1,21 @@
 // route to handle all user-related operations
 
 var express = require("express");
-var userCtrl = require("../controllers/api");
-var ensureLoggedIn = require("../config/ensureLoggedIn");
+var userCtrl = require("../controllers/users");
+var securityMiddleware = require("../middlewares/security");
+
 var router = express.Router();
 
-//under route: /users
-//router.post("/", userCtrl.newUser);
-//router.get("/:userid", userCtrl.getOneUser);
-//router.patch("/:userid", userCtrl.updateOneUser);
-//router.delete("/:userid", userCtrl.deleteOneUser);
-router.get("/check-token", ensureLoggedIn, userCtrl.checkToken);
+/* GET users listing. */
+// router.get('/', function(req, res, next) {
+//   res.send('respond with a resource');
+// });
+//under the rout /users
+router.get("/", securityMiddleware.checkPermission, userCtrl.getUsers);
+
+router.get("/login", userCtrl.getLoginDetails);
+router.post("/login", userCtrl.loginUser);
+
+router.post("/create", userCtrl.createUser); // add this route
 
 module.exports = router;
