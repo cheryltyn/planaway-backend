@@ -11,9 +11,12 @@ var router = express.Router();
 //   res.send('respond with a resource');
 // });
 //under the rout /users
-router.get("/", securityMiddleware.checkPermission, userCtrl.getUsers);
+
 router.get("/login", userCtrl.getLoginDetails);
 router.post("/login", userCtrl.loginUser);
+router.post("/logout", userCtrl.logoutUser);
+
+
 router.post("/create", userCtrl.createUser); // add this route
 
 module.exports = router;
