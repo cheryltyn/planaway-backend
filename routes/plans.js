@@ -3,19 +3,20 @@
 var express = require("express");
 var planCtrl = require("../controllers/plans");
 var router = express.Router();
+var checkToken = require("../config/checkToken");
 
 //under route: /plan
 //tbc: do we need the tripid in the route path?
 
 //create a new plan under the trip
-router.post("/:tripid", planCtrl.createPlan);
+router.post("/:tripid", checkToken, planCtrl.createPlan);
 //view all plans under the trip
-router.get("/:tripid", planCtrl.getAllPlans);
+router.get("/:tripid", checkToken, planCtrl.getAllPlans);
 //view one plan under the trip. tbc, is this route correct?
-router.get("/:tripid/:planid", planCtrl.getOnePlan);
+router.get("/:tripid/:planid", checkToken, planCtrl.getOnePlan);
 //update one plan. tbc, is this route correct?
-router.patch("/:planid", planCtrl.updateOnePlan);
+router.patch("/:planid", checkToken, planCtrl.updateOnePlan);
 //delete one plan. tbc, is this route correct?
-router.delete("/:tripid", planCtrl.deleteOnePlan);
+router.delete("/:tripid", checkToken, planCtrl.deleteOnePlan);
 
 module.exports = router;

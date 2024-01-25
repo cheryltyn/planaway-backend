@@ -6,6 +6,7 @@ const {
   logout,
   updateUser,
 } = require("../controllers/auth");
+//const checkToken = require("../middlewares/checkToken");
 
 const authRoutes = express.Router();
 
