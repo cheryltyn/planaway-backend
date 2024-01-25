@@ -13,6 +13,6 @@ const authRoutes = express.Router();
 authRoutes.post("/register", createUser);
 authRoutes.post("/login", loginUser);
 authRoutes.post("/logout", logout);
-authRoutes.put("/update/:id", updateUser);
+authRoutes.put("/update", updateUser);
 
 module.exports = authRoutes;
