@@ -54,11 +54,20 @@ async function loginUser(body) {
   };
   const token = utilSecurity.createJWT(jwtPayload);
   const expiry = utilSecurity.getExpiry(token);
+  console.log("token to store:", token);
+  console.log("expiry to store:", expiry);
 
-  usersDao.updateOne(
+  const result = await usersDao.updateOne(
     { email: body.email },
     { token: token, expire_at: expiry }
   );
+
+  if (result.modifiedCount > 0) {
+    console.log("Update successful!");
+  } else {
+    console.log("No document was modified.");
+  }
+
   return { success: true, data: token };
 }
 
