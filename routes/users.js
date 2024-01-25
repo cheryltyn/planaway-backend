@@ -12,10 +12,8 @@ var router = express.Router();
 // });
 //under the rout /users
 router.get("/", securityMiddleware.checkPermission, userCtrl.getUsers);
-
 router.get("/login", userCtrl.getLoginDetails);
 router.post("/login", userCtrl.loginUser);
-
 router.post("/create", userCtrl.createUser); // add this route
 
 module.exports = router;

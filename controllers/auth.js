@@ -27,7 +27,7 @@ function validateUpdateUser(user) {
 /* === to update user information === */
 // to add new user, make sure they are valid and does not exist yet
 const createUser = asyncHandler(async (req, res) => {
-  const { error } = validateUser(req.body);
+  const { error } = validateUser(req.body.body);
 
   if (error) {
     return res
@@ -122,16 +122,15 @@ const loginUser = asyncHandler(async (req, res) => {
 /* === Update profile === */
 const updateUser = asyncHandler(async (req, res) => {
   try {
-    const { error } = validateUpdateUser(req.body);
 
-    if (error) {
-      return res
-        .status(400)
-        .send({ status: false, message: error?.details[0]?.message });
-    }
-
+    // const { error } = validateUpdateUser(req.body);
+    // if (error) {
+    //   return res
+    //     .status(400)
+    //     .send({ status: false, message: error?.details[0]?.message });
+    // }
     //Find the user by ID
-    let user = await User.findById(req.params.id);
+    let user = await User.findOne({ email: req.body.email, userName: req.body.userName });
 
     if (!user) {
       return res
@@ -148,7 +147,11 @@ const updateUser = asyncHandler(async (req, res) => {
     if (req.body.password) {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
       user.password = hashedPassword;
+      user.salt = req.body.salt; 
+      user.iterations = req.body.iterations;
     }
+
+
     await user.save();
 
     const userWithoutPassword = {
@@ -156,7 +159,7 @@ const updateUser = asyncHandler(async (req, res) => {
       userName: user.userName,
       email: user.email,
     };
-
+    console.log("USER SAVED")
     return res.status(200).send({
       status: true,
       message: "User updated successfully",
