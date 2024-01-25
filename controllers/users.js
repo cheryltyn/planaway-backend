@@ -6,6 +6,7 @@ module.exports = {
   getLoginDetails,
   loginUser,
   createUser,
+  logoutUser,
 };
 
 async function getUsers(req, res) {
@@ -55,6 +56,19 @@ async function createUser(req, res) {
     // Typically some sort of validation error
     console.log(err);
     // res.render('movies/new', { errorMsg: err.message }); SKIP old code
+    res.status(500).json({ errorMsg: err.message });
+  }
+}
+
+async function logoutUser(req, res) {
+  try {
+    const result = await userMdl.logoutUser(req.body);
+    if (!result.success) {
+      res.status(400).json({ errorMsg: result.error });
+      return;
+    }
+    res.json(result.data);
+  } catch (err) {
     res.status(500).json({ errorMsg: err.message });
   }
 }

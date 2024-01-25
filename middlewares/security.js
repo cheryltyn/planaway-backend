@@ -7,16 +7,19 @@ module.exports = {
 };
 
 function checkJWT(req, res, next) {
-  // Check for the token being sent in a header or as a query parameter
   let token = req.get("Authorization") || req.query.token;
-  token = token.replace("Bearer ", "");
-  if (token) {
-    req.user = utilSecurity.verifyJWT(token);
-  } else {
-    // No token was sent
-    req.user = null;
+  if (token && token.startsWith("Bearer ")) {
+    token = token.replace("Bearer ", "");
+    try {
+      const jwt = utilSecurity.verifyJWT(token);
+      req.user = jwt.payload.user; //username
+    } catch (err) {
+      console.log(err);
+      req.user = null;
+    }
   }
-  return next();
+  console.log(`req.user:`, req.user);
+  next();
 }
 
 function checkLogin(req, res, next) {
@@ -28,6 +31,7 @@ function checkLogin(req, res, next) {
 
 function checkPermission(req, res, next) {
   // Status code of 401 is Unauthorized
+  // console.log("check permission", req);
   if (!req.user) return res.status(401).json("Unauthorized");
   if (req.body.email != req.user.email && req.user.is_admin == false)
     return res.status(401).json("Unauthorized");

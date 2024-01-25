@@ -7,6 +7,7 @@ module.exports = {
   getLoginDetails,
   loginUser,
   createUser,
+  logoutUser,
 };
 
 function getUsers(queryFields) {
@@ -80,4 +81,20 @@ async function createUser(body) {
   }
   const newUser = await usersDao.create(body);
   return { success: true, data: newUser };
+}
+
+async function logoutUser(body) {
+  if (!body.hasOwnProperty("email")) {
+    return { success: false, error: "missing email" };
+  }
+  const result = await usersDao.updateOne(
+    { email: body.email },
+    { token: null, expire_at: null }
+  );
+  if (result.modifiedCount > 0) {
+    console.log("Update successful!");
+  } else {
+    console.log("No document was modified.");
+  }
+  return { success: true };
 }
