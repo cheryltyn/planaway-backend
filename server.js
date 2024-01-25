@@ -5,6 +5,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var cors = require("cors");
 var User = require("./daos/user");
+var securityMiddleware = require("./middlewares/security");
 var connectDB = require("./client/mongo");
 
 require("dotenv").config();
@@ -37,7 +38,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 //app.use(cors());
-app.use(cors(corsOptions));
+app.use(cors());
+
+app.use(securityMiddleware.checkJWT);
 
 app.use("/users", usersRouter);
 app.use("/trips", tripsRouter);
