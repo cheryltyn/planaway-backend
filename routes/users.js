@@ -15,8 +15,7 @@ var router = express.Router();
 router.get("/login", userCtrl.getLoginDetails);
 router.post("/login", userCtrl.loginUser);
 router.post("/logout", userCtrl.logoutUser);
-
-
 router.post("/create", userCtrl.createUser); // add this route
+router.patch("/update", userCtrl.updateUser);
 
 module.exports = router;
