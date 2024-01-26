@@ -72,3 +72,54 @@ async function logoutUser(req, res) {
     res.status(500).json({ errorMsg: err.message });
   }
 }
+
+const updateUser = asyncHandler(async (req, res) => {
+  try {
+    console.log(req.body)
+    // const { error } = validateUpdateUser(req.body);
+    // if (error) {
+    //   return res
+    //     .status(400)
+    //     .send({ status: false, message: error?.details[0]?.message });
+    // }
+    //Find the user by ID
+    let user = await User.findOne({ email: req.body.email, userName: req.body.userName });
+
+    if (!user) {
+      return res
+        .status(404)
+        .send({ status: false, message: "User not found." });
+    }
+    if (req.body.userName) {
+      user.userName = req.body.userName;
+    }
+    if (req.body.email) {
+      user.email = req.body.email;
+    }
+
+    if (req.body.password) {
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      user.password = hashedPassword;
+      user.salt = req.body.salt; 
+      user.iterations = req.body.iterations;
+    }
+
+
+    await user.save();
+
+    const userWithoutPassword = {
+      _id: user._id,
+      userName: user.userName,
+      email: user.email,
+    };
+    console.log("USER SAVED")
+    return res.status(200).send({
+      status: true,
+      message: "User updated successfully",
+      user: userWithoutPassword,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+

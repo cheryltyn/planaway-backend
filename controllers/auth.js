@@ -122,7 +122,7 @@ const loginUser = asyncHandler(async (req, res) => {
 /* === Update profile === */
 const updateUser = asyncHandler(async (req, res) => {
   try {
-
+    console.log(req.body)
     // const { error } = validateUpdateUser(req.body);
     // if (error) {
     //   return res
