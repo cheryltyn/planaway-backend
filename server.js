@@ -27,7 +27,7 @@ app.set("view engine", "ejs");
 
 //to include the same value in Access-control-allow origin
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "https://planaway-frontend.onrender.com",
   credentials: true, // This is important for cookies or auth headers
 };
 
@@ -38,7 +38,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 //app.use(cors());
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use(securityMiddleware.checkJWT);
 

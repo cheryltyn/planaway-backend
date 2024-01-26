@@ -9,7 +9,7 @@ var router = express.Router();
 router.get(
   "/all/:username",
   securityMiddleware.checkLogin,
-  tripCtrl.getAllTrips
+  tripCtrl.getAllTrips,
 );
 router.get(
   "/one/:username",

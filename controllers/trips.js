@@ -16,6 +16,7 @@ async function getAllTrips(req, res) {
   // console.log(`userName:${userName}`);
   try {
     const tripData = await tripMdl.getAll(userName);
+    console.log("Trip is found")
     res.json(tripData);
   } catch (err) {
     console.log(err);

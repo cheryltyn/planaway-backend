@@ -7,7 +7,7 @@ module.exports = { createOne, getOne, getAll, updateOne, deleteOne };
 
 async function getAll(username) {
   //to update: use userDao functions
-  console.log(username);
+  // console.log(username);
   const tripData = await userDao.findOne({ userName: username });
   console.log(tripData);
   // .select("trips");
